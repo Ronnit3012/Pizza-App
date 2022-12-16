@@ -7,6 +7,9 @@ const expressLayout = require('express-ejs-layouts');
 
 const PORT = process.env.PORT || 5000;
 
+// Assets
+app.use(express.static('public'));
+
 // Set Template Engine
 // app.use(expressLayout);
 app.set('views', path.join(__dirname, '/resources/views'));
