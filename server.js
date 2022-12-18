@@ -1,9 +1,8 @@
-const express = require('express');
-const app = express();
 const path = require('path');
-
 const ejs = require('ejs');
 const expressLayout = require('express-ejs-layouts');
+const express = require('express');
+const app = express();
 
 const PORT = process.env.PORT || 5000;
 
@@ -15,21 +14,9 @@ app.use(expressLayout);     // this finds the layout page and applies that on al
 app.set('views', path.join(__dirname, '/resources/views'));
 app.set('view engine', 'ejs');          // setting the view engine as ejs
 
-app.get('/', (req, res) => {
-    res.render('home');
-});
-
-app.get('/login', (req, res) => {
-    res.render('auth/login')
-});
-
-app.get('/register', (req, res) => {
-    res.render('auth/register')
-});
-
-app.get('/cart', (req, res) => {
-    res.render('customers/cart')
-});
+// Routes
+// Routes should always come after the set the templating engines
+require('./routes/web')(app);   // passing the instance of express to the route folder
 
 app.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
