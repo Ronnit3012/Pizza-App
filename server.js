@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const path = require('path');
 const ejs = require('ejs');
 const expressLayout = require('express-ejs-layouts');
@@ -5,6 +6,23 @@ const express = require('express');
 const app = express();
 
 const PORT = process.env.PORT || 5000;
+
+// Database Connection
+const url = 'mongodb://127.0.0.1:27017/pizza';
+mongoose.set("strictQuery", false);
+
+mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
+const connection = mongoose.connection;
+connection.once('open', () => {
+    console.log('Database Connected...');
+}).on('error', err => {
+    console.log('Connection failed...');
+});
+
 
 // Assets
 app.use(express.static('public'));
