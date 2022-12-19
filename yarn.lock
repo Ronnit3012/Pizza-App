@@ -2255,7 +2255,7 @@ array-union@^2.1.0:
   resolved "https://registry.npmjs.org/array-union/-/array-union-2.1.0.tgz"
   integrity sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==
 
-asn1.js@^5.2.0:
+asn1.js@^5.2.0, asn1.js@^5.4.1:
   version "5.4.1"
   resolved "https://registry.npmjs.org/asn1.js/-/asn1.js-5.4.1.tgz"
   integrity sha512-+I//4cYPccV8LdmBLiX8CYvf9Sp3vQsrqu2QNXRcrbiWvcx/UdlFiqUJJzxRQxgsZmvhXhn4cSKeSmoFjVdupA==
@@ -2762,10 +2762,23 @@ concat@^1.0.3:
   dependencies:
     commander "^2.9.0"
 
+connect-flash@0.1.x:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/connect-flash/-/connect-flash-0.1.1.tgz#d8630f26d95a7f851f9956b1e8cc6732f3b6aa30"
+  integrity sha512-2rcfELQt/ZMP+SM/pG8PyhJRaLKp+6Hk2IUBNkEit09X+vwn3QsAL3ZbYtxUn7NVPzbMTSLRDhqe0B/eh30RYA==
+
 connect-history-api-fallback@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/connect-history-api-fallback/-/connect-history-api-fallback-2.0.0.tgz"
   integrity sha512-U73+6lQFmfiNPrYbXqr6kZ1i1wiRqXnp2nhMsINseWXO8lDau0LGEffJ8kQi4EjLZympVgRdvqjAgiZ1tgzDDA==
+
+connect-mongo@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/connect-mongo/-/connect-mongo-4.6.0.tgz#1bf62868efc9f28ecf1459ae9a9d6caaf90ae8a6"
+  integrity sha512-8new4Z7NLP3CGP65Aw6ls3xDBeKVvHRSh39CXuDZTQsvpeeU9oNMzfFgvqmHqZ6gWpxIl663RyoVEmCAGf1yOg==
+  dependencies:
+    debug "^4.3.1"
+    kruptein "^3.0.0"
 
 consola@^2.15.3:
   version "2.15.3"
@@ -2803,6 +2816,11 @@ cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.0.6.tgz"
   integrity sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==
+
+cookie@0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.2.tgz#0e41f24de5ecf317947c82fc789e06a884824432"
+  integrity sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==
 
 cookie@0.5.0:
   version "0.5.0"
@@ -3007,7 +3025,7 @@ debug@2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4.x, debug@^4.1.0, debug@^4.1.1:
+debug@4.x, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1:
   version "4.3.4"
   resolved "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -3033,7 +3051,7 @@ define-lazy-prop@^2.0.0:
   resolved "https://registry.npmjs.org/define-lazy-prop/-/define-lazy-prop-2.0.0.tgz"
   integrity sha512-Ds09qNh8yw3khSjiJjiUInaGX9xlqZDY7JVryGxdxV7NPeuqQfplOpQ66yJFZut3jLa5zOwkXw1g9EI2uKh4Og==
 
-depd@2.0.0:
+depd@2.0.0, depd@~2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz"
   integrity sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==
@@ -3148,6 +3166,11 @@ dotenv@^10.0.0:
   version "10.0.0"
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-10.0.0.tgz"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
+
+dotenv@^16.0.3:
+  version "16.0.3"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
+  integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -3311,6 +3334,27 @@ express-ejs-layouts@^2.5.1:
   version "2.5.1"
   resolved "https://registry.npmjs.org/express-ejs-layouts/-/express-ejs-layouts-2.5.1.tgz"
   integrity sha512-IXROv9n3xKga7FowT06n1Qn927JR8ZWDn5Dc9CJQoiiaaDqbhW5PDmWShzbpAa2wjWT1vJqaIM1S6vJwwX11gA==
+
+express-flash@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/express-flash/-/express-flash-0.0.2.tgz#23d1a8bcf3f90d707928e489f96869ecad0acda2"
+  integrity sha512-QVUR0ZZRCaa8+iPHoUQaQJrQWcQuK/Q+19M7IUIdIEtvwhrA/ifHT7y1CVJI41YfGiOQnbGtn3uvd2vOdgu58A==
+  dependencies:
+    connect-flash "0.1.x"
+
+express-session@^1.17.3:
+  version "1.17.3"
+  resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.17.3.tgz#14b997a15ed43e5949cb1d073725675dd2777f36"
+  integrity sha512-4+otWXlShYlG1Ma+2Jnn+xgKUZTMJ5QD3YvfilX3AcocOAbIkVylSWEklzALe/+Pu4qV6TYBj5GwOBFfdKqLBw==
+  dependencies:
+    cookie "0.4.2"
+    cookie-signature "1.0.6"
+    debug "2.6.9"
+    depd "~2.0.0"
+    on-headers "~1.0.2"
+    parseurl "~1.3.3"
+    safe-buffer "5.2.1"
+    uid-safe "~2.1.5"
 
 express@^4.17.3, express@^4.18.2:
   version "4.18.2"
@@ -4042,6 +4086,13 @@ klona@^2.0.4, klona@^2.0.5:
   resolved "https://registry.npmjs.org/klona/-/klona-2.0.5.tgz"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
 
+kruptein@^3.0.0:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/kruptein/-/kruptein-3.0.5.tgz#7e41a17c57974ada17f53133bf11fdd13c592044"
+  integrity sha512-c1pyg/HKep8y5l+AoiicTs94k4bnzBSiS1b8NQcnQDtv9Yh45rNLuDIUwEwawmuFYpcA5xqhG7k0LqiMhrBPXw==
+  dependencies:
+    asn1.js "^5.4.1"
+
 laravel-mix@^6.0.49:
   version "6.0.49"
   resolved "https://registry.npmjs.org/laravel-mix/-/laravel-mix-6.0.49.tgz"
@@ -4323,19 +4374,7 @@ mongodb-connection-string-url@^2.5.4:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
 
-mongodb@4.12.1:
-  version "4.12.1"
-  resolved "https://registry.npmjs.org/mongodb/-/mongodb-4.12.1.tgz"
-  integrity sha512-koT87tecZmxPKtxRQD8hCKfn+ockEL2xBiUvx3isQGI6mFmagWt4f4AyCE9J4sKepnLhMacoCTQQA6SLAI2L6w==
-  dependencies:
-    bson "^4.7.0"
-    mongodb-connection-string-url "^2.5.4"
-    socks "^2.7.1"
-  optionalDependencies:
-    "@aws-sdk/credential-providers" "^3.186.0"
-    saslprep "^1.0.3"
-
-mongodb@^4.12.1:
+mongodb@4.12.1, mongodb@^4.12.1:
   version "4.12.1"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.12.1.tgz#224eb39b8784af835b515aa687c6010cecaabb1a"
   integrity sha512-koT87tecZmxPKtxRQD8hCKfn+ockEL2xBiUvx3isQGI6mFmagWt4f4AyCE9J4sKepnLhMacoCTQQA6SLAI2L6w==
@@ -5065,6 +5104,11 @@ queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
+
+random-bytes@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/random-bytes/-/random-bytes-1.0.0.tgz#4f68a1dc0ae58bd3fb95848c30324db75d64360b"
+  integrity sha512-iv7LhNVO047HzYR3InF6pUcUsPQiHTM1Qal51DcGSuZFBil1aBBWG5eHPNek7bvILMaYJ/8RU1e8w1AMdHmLQQ==
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"
@@ -5821,6 +5865,13 @@ type-is@~1.6.18:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.24"
+
+uid-safe@~2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/uid-safe/-/uid-safe-2.1.5.tgz#2b3d5c7240e8fc2e58f8aa269e5ee49c0857bd3a"
+  integrity sha512-KPHm4VL5dDXKz01UuEd88Df+KzynaohSL9fBh096KWAxSKZQDI2uBrVqtvRM4rwrIrRRKsdLNML/lnaaVSRioA==
+  dependencies:
+    random-bytes "~1.0.0"
 
 undefsafe@^2.0.5:
   version "2.0.5"

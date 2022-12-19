@@ -1,9 +1,13 @@
-const mongoose = require('mongoose');
-const path = require('path');
-const ejs = require('ejs');
-const expressLayout = require('express-ejs-layouts');
+require('dotenv').config();
 const express = require('express');
 const app = express();
+const ejs = require('ejs');
+const path = require('path');
+const expressLayout = require('express-ejs-layouts');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const flash = require('express-flash');
+const MongoDbStore = require('connect-mongo');
 
 const PORT = process.env.PORT || 5000;
 
@@ -23,6 +27,25 @@ connection.once('open', () => {
     console.log('Connection failed...');
 });
 
+
+//Session config'
+// express-session acts as a middleware
+// Session cannot work with the cookies
+// Our session is valid till the time our cookie is alive
+app.use(session({
+    secret: process.env.COOKIE_SECRET,          // To specify encrytion and decryption key for cookies
+    resave: false,
+    saveUninitialized: false,
+    store: MongoDbStore.create({            // Session Store
+        mongoUrl: url,
+        collectionName: 'sessions',
+    }),             // This will create a collection in pizza db and store all the sessions of clients and will be deleted from db once the dedicated session expires
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },    // this specifies the life of out cookie. The maxAge is calculated in milliseconds.
+    // This states that the cookie that will be generated for a session it will have its life of 24 hours
+}));
+
+// Flash
+app.use(flash());
 
 // Assets
 app.use(express.static('public'));
