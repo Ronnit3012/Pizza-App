@@ -12,6 +12,7 @@
   "author": "Ronnit Mirgh",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.2.1",
     "connect-mongo": "^4.6.0",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.8",
@@ -20,7 +21,8 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.3",
     "mongodb": "^4.12.1",
-    "mongoose": "^6.8.0"
+    "mongoose": "^6.8.0",
+    "noty": "3.2.0-beta"
   },
   "devDependencies": {
     "laravel-mix": "^6.0.49",

@@ -12,7 +12,7 @@ const MongoDbStore = require('connect-mongo');
 const PORT = process.env.PORT || 5000;
 
 // Database Connection
-const url = 'mongodb://127.0.0.1:27017/pizza';
+const url = process.env.MONGO_CONNECTION_URL;
 mongoose.set("strictQuery", false);
 
 mongoose.connect(url, {
@@ -28,7 +28,7 @@ connection.once('open', () => {
 });
 
 
-//Session config'
+//Session config
 // express-session acts as a middleware
 // Session cannot work with the cookies
 // Our session is valid till the time our cookie is alive
@@ -49,6 +49,14 @@ app.use(flash());
 
 // Assets
 app.use(express.static('public'));
+app.use(express.json());     // this tells express to allow request payload to be read in json
+
+//Global Middelware
+app.use((req, res, next) => {       // this will get called before every request
+    res.locals.session = req.session;
+    // console.log(res.locals.session)
+    next();
+})
 
 // Set Template Engine
 app.use(expressLayout);     // this finds the layout page and applies that on all the pages
