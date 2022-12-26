@@ -49,7 +49,10 @@ app.use(flash());
 
 // Assets
 app.use(express.static('public'));
-app.use(express.json());     // this tells express to allow request payload to be read in json
+
+// Now since express does not know in what form we will be receiving data so we need to tell express explicitly to parse if we get these kind of data. Either in the URL encoded form or JSON form.
+app.use(express.urlencoded({ extended: false }));   // this tells express to parse the URL encoded data if received    
+app.use(express.json());        // this tells express to allow request payload to be read in json
 
 //Global Middelware
 app.use((req, res, next) => {       // this will get called before every request
