@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('express-flash');
 const MongoDbStore = require('connect-mongo');
+const passport = require('passport');
 
 const PORT = process.env.PORT || 5000;
 
@@ -44,6 +45,13 @@ app.use(session({
     // This states that the cookie that will be generated for a session it will have its life of 24 hours
 }));
 
+// Passport config
+const passportInit = require('./app/config/passport');
+passportInit(passport)          // passing the instance of the passport
+app.use(passport.initialize());
+app.use(passport.session());            // passport works with the help of session
+
+
 // Flash
 app.use(flash());
 
@@ -56,7 +64,8 @@ app.use(express.json());        // this tells express to allow request payload t
 
 //Global Middelware
 app.use((req, res, next) => {       // this will get called before every request
-    res.locals.session = req.session;
+    res.locals.session = req.session;       // setting our session
+    res.locals.user = req.user;
     // console.log(res.locals.session)
     next();
 })

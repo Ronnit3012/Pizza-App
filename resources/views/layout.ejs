@@ -24,8 +24,16 @@
             <ul class="flex gap-6 items-center">
                 <li><a href="#">Menu</a></li>
                 <li><a href="#">Offers</a></li>
-                <li><a href="/register">Register</a></li>
-                <li><a href="/login">Login</a></li>
+                <% if(user) { %>
+                    <li>
+                        <form id="logout" action="/logout" method="POST">
+                            <a onclick="document.getElementById('logout').submit()" href="#">Logout</a>
+                        </form>
+                    </li>
+                <% } else { %>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/login">Login</a></li>
+                <% } %>
                 <li><a href="/cart" class="flex items-center inline-block px-4 py-2 rounded-full">
                     <span id="cartCounter" class="text-white font-bold pr-2" data-session="<%= JSON.stringify(session) %>"><%= session.cart ? session.cart.totalQty : '' %></span>
                     <img src="/img/cart.png" alt="Cart">
