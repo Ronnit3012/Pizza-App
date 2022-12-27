@@ -33,12 +33,9 @@ const init = (passport) => {
     // To get the data what we stored in the session
     passport.deserializeUser((id, done) => {
         // The deserializeUser method adds the property on the request object as user(req.user)
-        try {
-            const user = User.findById(id);
-            done(null, user);
-        } catch(err) {
-            done(err, false);
-        }
+        User.findById(id, (err, user) => {
+            done(err, user);
+        });
     });
 }
 

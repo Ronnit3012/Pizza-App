@@ -1,5 +1,7 @@
 import axios from 'axios';
 import Noty from 'noty';
+import moment from 'moment';
+import initAdmin from './admin';
 
 const addToCart = document.querySelectorAll('.add-to-cart');
 const cartCounter = document.querySelector('#cartCounter');
@@ -35,3 +37,14 @@ addToCart.forEach((btn) => {
         updateCart(pizza);
     });
 });
+
+
+// Remove alert message after two seconds
+const alertMsg = document.querySelector('#success-alert');
+if(alertMsg) {
+    setTimeout(() => {
+        alertMsg.remove();          // this will remove the alert message after 2 seconds
+    }, 2000);
+}
+
+initAdmin();

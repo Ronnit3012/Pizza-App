@@ -64,6 +64,7 @@ app.use(express.json());        // this tells express to allow request payload t
 
 //Global Middelware
 app.use((req, res, next) => {       // this will get called before every request
+    // console.log(req.session);
     res.locals.session = req.session;       // setting our session
     res.locals.user = req.user;
     // console.log(res.locals.session)
