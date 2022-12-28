@@ -9,6 +9,8 @@ const session = require('express-session');
 const flash = require('express-flash');
 const MongoDbStore = require('connect-mongo');
 const passport = require('passport');
+const socket = require('socket.io');
+const Emitter = require('events');
 
 const PORT = process.env.PORT || 5000;
 
@@ -28,6 +30,10 @@ connection.once('open', () => {
     console.log('Connection failed...');
 });
 
+
+// Event Emitter
+const eventEmitter = new Emitter();         // we create the instance of the inbuilt module of nodejs 'events'
+app.set('eventEmitter', eventEmitter);      // we bind the instance with the app so that we can use it everywhere
 
 //Session config
 // express-session acts as a middleware
@@ -80,6 +86,30 @@ app.set('view engine', 'ejs');          // setting the view engine as ejs
 // Routes should always come after the set the templating engines
 require('./routes/web')(app);   // passing the instance of express to the route folder
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
 });
+
+
+// Socket
+const io = socket(server, {
+    cors: {
+        origin: '*',
+    },
+});
+
+io.sockets.on('connection', (socket) => {
+    console.log(socket.id);
+    // Join Room
+    socket.on('join', (roomName) => {
+        socket.join(roomName);      // creating room for the client
+    });
+});
+
+eventEmitter.on('orderUpdated', (data) => {
+    io.to(`order_${data.id}`).emit('orderUpdated', data);
+});
+
+eventEmitter.on('orderPlaced', (data) => {
+    io.to('adminRoom').emit('orderPlaced', data);
+})

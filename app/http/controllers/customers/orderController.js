@@ -20,6 +20,7 @@ const orderController = () => {
         },
         async store(req, res) {
             const { phone, address } = req.body;
+            
             // Validate request
             if(!phone || !address) {
                 req.flash('error', 'All fields are required!');
@@ -35,15 +36,40 @@ const orderController = () => {
             });
 
             try {
-                await order.save();
+                const result = await order.save();
 
-                req.flash('success', 'Order placed successfully!');
-                delete req.session.cart;        // this will delete all the items stored in the cart will be deleted because they are all placed
+                try {
+                    const orderPlaced = await Order.populate(result, { path: 'customerId' });
 
-                return res.redirect('/customer/orders');
+                    req.flash('success', 'Order placed successfully!');
+                    delete req.session.cart;        // this will delete all the items stored in the cart will be deleted because they are all placed
+
+                    // Emit 
+                    const eventEmitter = req.app.get('eventEmitter');
+                    eventEmitter.emit('orderPlaced', orderPlaced);
+
+                    return res.redirect('/customer/orders');
+                } catch (error) {
+                    console.log(error)
+                }
             } catch(err) {
                 req.flash('error', 'Something went wrong!');
                 return res.redirect('/cart');
+            }
+        },
+        async show(req, res) {
+            try {
+                const order = await Order.findById(req.params.id);
+
+                // Authorize user
+                if(req.user._id.toString() === order.customerId.toString()) {
+                    return res.render('customers/singleOrder', { order, moment });
+                }
+
+                return res.redirect('/')
+            } catch(err) {
+                req.flash('error', 'Something went wrong!');
+                return res.redirect('/customer/orders');
             }
         }
     }

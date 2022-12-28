@@ -1,5 +1,6 @@
 import axios from "axios";
 import moment from "moment";
+import Noty from 'noty';
 
 const renderItems = (items) => {
     let parsedItems = Object.values(items);
@@ -24,7 +25,7 @@ const generateMarkup = (orders) => {
                     <div class="inline-block relative w-64">
                         <form action="/admin/order/status" method="POST">
                             <input type="hidden" name="orderId" value=${ order._id } />
-                            <select name="status" onChnage="this.form.submit()"
+                            <select name="status" onChange="this.form.submit()"
                             class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus: shadow-outline">
                                 <option value="order_placed" ${ order.status === 'order_placed' ? 'selected' : '' }>Placed</option>
                                 <option value="confirmed" ${ order.status === 'confirmed' ? 'selected' : '' }>Confirmed</option>
@@ -50,7 +51,7 @@ const generateMarkup = (orders) => {
     }).join('');        // this will join all the elements of the array into a single string
 }
 
-const initAdmin = async () => {
+const initAdmin = async (socket) => {
     const orderTableBody = document.querySelector('#orderTableBody');
     let orders = [];     // this will store the data from the request
     let markup;     // this is what will go inside the 'tbody'
@@ -63,12 +64,25 @@ const initAdmin = async () => {
         });
 
         orders = await result.data;
-        markup = generateMarkup(orders, moment);
+        markup = generateMarkup(orders);
 
         orderTableBody.innerHTML = markup;
     } catch (error) {
         console.log(error);
-    }    
+    }
+
+    socket.on('orderPlaced', (data) => {
+        orders.unshift(data);
+        orderTableBody.innerHTML = '';
+        orderTableBody.innerHTML = generateMarkup(orders);
+        // Notification
+        new Noty({
+            type: 'success',
+            timeout: 1000,
+            text: 'New Order!',
+            progressBar: false,
+        }).show();
+    });
 }
 
 export default initAdmin;       // using ESM Syntax
