@@ -27,7 +27,7 @@ const orderController = () => {
                 return res.redirect('/cart');
             };
             
-            console.log(req.session.cart.items)
+            // console.log(req.session.cart.items)
             const order = new Order({
                 customerId: req.user._id,
                 items: req.session.cart.items,

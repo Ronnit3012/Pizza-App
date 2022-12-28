@@ -184,7 +184,6 @@ if (alertMsg) {
     alertMsg.remove(); // this will remove the alert message after 2 seconds
   }, 2000);
 }
-(0,_admin__WEBPACK_IMPORTED_MODULE_2__["default"])(socket);
 
 // Change Order Status
 var statuses = document.querySelectorAll('.status-line');
@@ -223,15 +222,18 @@ updateStatus(order);
 if (order) {
   socket.emit('join', "order_".concat(order._id));
 }
+
+// Admin
 var adminAreaPath = window.location.pathname;
 if (adminAreaPath.includes('/admin/orders')) {
+  (0,_admin__WEBPACK_IMPORTED_MODULE_2__["default"])(socket);
   socket.emit('join', 'adminRoom');
 }
 socket.on('orderUpdated', function (data) {
   var updatedOrder = _objectSpread({}, order);
   updatedOrder.updatedAt = moment__WEBPACK_IMPORTED_MODULE_1___default()().format();
   updatedOrder.status = data.status;
-  console.log(updatedOrder);
+  // console.log(updatedOrder);
   updateStatus(updatedOrder);
 
   // Notification

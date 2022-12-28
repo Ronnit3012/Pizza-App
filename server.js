@@ -73,6 +73,7 @@ app.use((req, res, next) => {       // this will get called before every request
     // console.log(req.session);
     res.locals.session = req.session;       // setting our session
     res.locals.user = req.user;
+    // res.locals.userRole = req.session.userRole;
     // console.log(res.locals.session)
     next();
 })
@@ -99,7 +100,7 @@ const io = socket(server, {
 });
 
 io.sockets.on('connection', (socket) => {
-    console.log(socket.id);
+    // console.log(socket.id);
     // Join Room
     socket.on('join', (roomName) => {
         socket.join(roomName);      // creating room for the client

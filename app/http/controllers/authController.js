@@ -1,6 +1,5 @@
 const User = require('../../models/user');
 const bcrypt = require('bcrypt');
-const user = require('../../models/user');
 const passport = require('passport');
 
 const authController = () => {
@@ -41,14 +40,13 @@ const authController = () => {
 
                     return res.redirect(_getRedirectUrl(req));      // we will create a private method which will return the route to redirect based in the role of the user
                 });
-
             })(req, res, next);
         },
         register(req, res) {
             res.render('auth/register')
         },
         async postRegister(req, res) {
-            console.log(req.body);
+            // console.log(req.body);
             const { name, email, password } = req.body;
             
             try {
@@ -87,7 +85,7 @@ const authController = () => {
                 });
 
                 const response = await user.save();
-                console.log(response);
+                // console.log(response);
 
                 return res.redirect('/');
             } catch (err) {
