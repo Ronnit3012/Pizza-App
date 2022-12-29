@@ -15,10 +15,9 @@ const Emitter = require('events');
 const PORT = process.env.PORT || 5000;
 
 // Database Connection
-const url = process.env.MONGO_CONNECTION_URL;
 mongoose.set("strictQuery", false);
 
-mongoose.connect(url, {
+mongoose.connect(process.env.MONGO_CONNECTION_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -34,6 +33,7 @@ connection.once('open', () => {
 // Event Emitter
 const eventEmitter = new Emitter();         // we create the instance of the inbuilt module of nodejs 'events'
 app.set('eventEmitter', eventEmitter);      // we bind the instance with the app so that we can use it everywhere
+eventEmitter.setMaxListeners(100);
 
 //Session config
 // express-session acts as a middleware
@@ -44,7 +44,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoDbStore.create({            // Session Store
-        mongoUrl: url,
+        mongoUrl: process.env.MONGO_CONNECTION_URL,
         collectionName: 'sessions',
     }),             // This will create a collection in pizza db and store all the sessions of clients and will be deleted from db once the dedicated session expires
     cookie: { maxAge: 1000 * 60 * 60 * 24 },    // this specifies the life of out cookie. The maxAge is calculated in milliseconds.
@@ -86,6 +86,11 @@ app.set('view engine', 'ejs');          // setting the view engine as ejs
 // Routes
 // Routes should always come after the set the templating engines
 require('./routes/web')(app);   // passing the instance of express to the route folder
+
+// Error page
+app.get('/*', (req, res) => {
+    return res.status(404).render('errors/404');
+});
 
 const server = app.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);

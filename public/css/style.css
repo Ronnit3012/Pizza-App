@@ -340,6 +340,7 @@ section.status {
   padding-left: 20px;
 }
 
+/*  Dots  */
 .status-box ul li span:after {
   content: "";
   position: absolute;
@@ -353,6 +354,7 @@ section.status {
   box-shadow: 0 0 1px 10px #f8f8f8;
 }
 
+/*  Icons  */
 .status-box ul li span:before {
   font-family: "Line Awesome Free";
   font-size: 46px;
@@ -384,6 +386,7 @@ section.status {
   content: "\f582";
 }
 
+/*  Line  */
 .status-box ul li:before {
   content: "";
   position: absolute;
@@ -395,32 +398,61 @@ section.status {
   margin-top: 10px;
 }
 
+/*  Last Dot  */
 .status-box ul li:nth-child(5) span:after {
   box-shadow: 0 20px 1px 20px #f8f8f8;
 }
 
 /*  Completed   */
+/*  Line  */
 .status-box ul li.step-completed:before {
   background: #ccc;
 }
 
+/*  Dots  */
 .status-box ul li.step-completed span:after {
   background: #ccc;
 }
 
+/*  Text  */
 .status-box ul li.step-completed span {
   color: #ccc;
 }
 
 /*  Current Status  */
+/*  Text  */
 .status-box ul li.current span {
   color: #fe5f1e;
 }
 
+/*  Dots  */
 .status-box ul li.current span:after {
   background: #fe5f1e;
 }
 
+/*  Error page  */
+.error {
+  background: #f8f8f8;
+  min-height: calc(100vh - 86px);
+}
+
+.emoji-404 {
+  position: relative;
+  animation: mymove 2.5s infinite;
+}
+
+@keyframes mymove {
+  33% {
+    top: 0px;
+  }
+  66% {
+    top: 20px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+/*  Media Query  */
 @media (max-width: 1060px) {
   .container {
     max-width: 90%;

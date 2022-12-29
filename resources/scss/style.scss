@@ -99,7 +99,7 @@ section.status {
     padding-left: 20px;
 }
 
-// Dots
+/*  Dots  */
 .status-box ul li span:after {
     content: '';
     position: absolute;
@@ -113,7 +113,7 @@ section.status {
     box-shadow: 0 0 1px 10px $secondary;    // we gave box-shadow to dots because we don't want vertical lines to touch the dots
 }
 
-// Icons
+/*  Icons  */
 .status-box ul li span:before {
     font-family: "Line Awesome Free";
     font-size: 46px;
@@ -145,7 +145,7 @@ section.status {
     content: '\f582';
 }
 
-// Line
+/*  Line  */
 .status-box ul li:before {
     content: '';
     position: absolute;
@@ -157,42 +157,64 @@ section.status {
     margin-top: 10px;
 }
 
-// Last Dot
+/*  Last Dot  */
 .status-box ul li:nth-child(5) span:after {
     box-shadow: 0 20px 1px 20px $secondary;
 }
 
 
 /*  Completed   */
-// Line
+/*  Line  */
 .status-box ul li.step-completed:before {
     background: $gray;
 }
 
-// Dots
+/*  Dots  */
 .status-box ul li.step-completed span:after {
     background: $gray;
 }
 
-// Text
+/*  Text  */
 .status-box ul li.step-completed span {
     color: $gray;
 }
 
 
 /*  Current Status  */
-// Text
+/*  Text  */
 .status-box ul li.current span {
     color: $primary;
 }
 
-// Dots
+/*  Dots  */
 .status-box ul li.current span:after {
     background: $primary;
 }
 
+/*  Error page  */
+.error {
+    background: $secondary;
+    min-height: calc(100vh - 86px);
+}
 
-// Media Query
+.emoji-404{
+    position: relative;
+    animation: mymove 2.5s infinite;
+}
+  
+@keyframes mymove {
+    33%   {
+        top: 0px; 
+    }
+    66%  {
+        top: 20px; 
+    }
+    100%  { 
+        top: 0px
+    } 
+}
+
+/*  Media Query  */
 @media (max-width: 1060px) {
     .container {
         max-width: 90%;
