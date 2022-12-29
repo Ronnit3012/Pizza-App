@@ -25,11 +25,6 @@ const updateCart = async (pizza) => {
         }).show();
 
         cartCounter.innerText = response.data.totalQty;
-
-        const orderAreaPath = window.location.pathname;
-        if(orderAreaPath === '/cart') {
-            window.location.reload(true);
-        }
     } catch(err) {
         new Noty({
             type: 'error',
@@ -48,57 +43,11 @@ addToCart.forEach((btn) => {
     });
 });
 
-
+// Cart
 const orderAreaPath = window.location.pathname;
-if(orderAreaPath === '/cart-trial') {
+if(orderAreaPath === '/cart') {
     initCart(socket);
 }
-
-// Add and Delete Item
-const addItemButtons = document.querySelectorAll('.addItem');
-const removeItemButtons = document.querySelectorAll('.removeItem');
-// console.log(addItemButtons);
-addItemButtons.forEach(addItem => {
-    addItem.addEventListener('click', (e) => {
-        e.preventDefault();
-        let pizza = JSON.parse(addItem.dataset.pizza);
-        updateCart(pizza);
-        window.location.reload(true);
-    });
-});
-
-const deleteCartItem = async (pizza) => {
-    try {
-        const response = await axios.post('/delete-item', pizza);
-
-        new Noty({
-            type: 'success',
-            timeout: 1000,
-            text: 'Item delete from the cart!',
-            progressBar: false,
-        }).show();
-
-        cartCounter.innerText = response.data.totalQty;
-        window.location.reload(true);
-    } catch(err) {
-        new Noty({
-            type: 'error',
-            timeout: 1000,
-            text: 'Something went wrong!',
-            progressBar: false,
-        }).show();
-    }
-}
-
-removeItemButtons.forEach(removeItem => {
-    removeItem.addEventListener('click', (e) => {
-        e.preventDefault();
-        let pizza = JSON.parse(removeItem.dataset.pizza);
-        deleteCartItem(pizza);
-    })
-})
-
-
 
 // Remove alert message after two seconds
 const alertMsg = document.querySelector('#success-alert');
@@ -123,6 +72,7 @@ const beforeUpdate = () => {
     });
 }
 
+// Update Order Status
 const updateStatus = (order) => {
     beforeUpdate();
     let stepCompleted = true;

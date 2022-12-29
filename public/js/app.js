@@ -132,7 +132,7 @@ var addToCart = document.querySelectorAll('.add-to-cart');
 var cartCounter = document.querySelector('#cartCounter');
 var updateCart = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(pizza) {
-    var response, _orderAreaPath;
+    var response;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -149,14 +149,10 @@ var updateCart = /*#__PURE__*/function () {
               progressBar: false
             }).show();
             cartCounter.innerText = response.data.totalQty;
-            _orderAreaPath = window.location.pathname;
-            if (_orderAreaPath === '/cart') {
-              window.location.reload(true);
-            }
-            _context.next = 13;
+            _context.next = 11;
             break;
-          case 10:
-            _context.prev = 10;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
             new (noty__WEBPACK_IMPORTED_MODULE_0___default())({
               type: 'error',
@@ -164,12 +160,12 @@ var updateCart = /*#__PURE__*/function () {
               text: 'Something went wrong!',
               progressBar: false
             }).show();
-          case 13:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 10]]);
+    }, _callee, null, [[0, 8]]);
   }));
   return function updateCart(_x) {
     return _ref.apply(this, arguments);
@@ -182,72 +178,12 @@ addToCart.forEach(function (btn) {
     updateCart(pizza);
   });
 });
+
+// Cart
 var orderAreaPath = window.location.pathname;
-if (orderAreaPath === '/cart-trial') {
+if (orderAreaPath === '/cart') {
   (0,_cart__WEBPACK_IMPORTED_MODULE_2__["default"])(socket);
 }
-
-// Add and Delete Item
-var addItemButtons = document.querySelectorAll('.addItem');
-var removeItemButtons = document.querySelectorAll('.removeItem');
-// console.log(addItemButtons);
-addItemButtons.forEach(function (addItem) {
-  addItem.addEventListener('click', function (e) {
-    e.preventDefault();
-    var pizza = JSON.parse(addItem.dataset.pizza);
-    updateCart(pizza);
-    window.location.reload(true);
-  });
-});
-var deleteCartItem = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(pizza) {
-    var response;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return axios__WEBPACK_IMPORTED_MODULE_4__["default"].post('/delete-item', pizza);
-          case 3:
-            response = _context2.sent;
-            new (noty__WEBPACK_IMPORTED_MODULE_0___default())({
-              type: 'success',
-              timeout: 1000,
-              text: 'Item delete from the cart!',
-              progressBar: false
-            }).show();
-            cartCounter.innerText = response.data.totalQty;
-            window.location.reload(true);
-            _context2.next = 12;
-            break;
-          case 9:
-            _context2.prev = 9;
-            _context2.t0 = _context2["catch"](0);
-            new (noty__WEBPACK_IMPORTED_MODULE_0___default())({
-              type: 'error',
-              timeout: 1000,
-              text: 'Something went wrong!',
-              progressBar: false
-            }).show();
-          case 12:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2, null, [[0, 9]]);
-  }));
-  return function deleteCartItem(_x2) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-removeItemButtons.forEach(function (removeItem) {
-  removeItem.addEventListener('click', function (e) {
-    e.preventDefault();
-    var pizza = JSON.parse(removeItem.dataset.pizza);
-    deleteCartItem(pizza);
-  });
-});
 
 // Remove alert message after two seconds
 var alertMsg = document.querySelector('#success-alert');
@@ -270,6 +206,8 @@ var beforeUpdate = function beforeUpdate() {
     status.classList.remove('current');
   });
 };
+
+// Update Order Status
 var updateStatus = function updateStatus(order) {
   beforeUpdate();
   var stepCompleted = true;
@@ -340,6 +278,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var cartCounter = document.querySelector('#cartCounter');
+var eventListeners = function eventListeners() {
+  // Add and Delete Item
+  var addItemButtons = document.querySelectorAll('.addItem');
+  var removeItemButtons = document.querySelectorAll('.removeItem');
+  addItemButtons.forEach(function (addItem) {
+    addItem.addEventListener('click', function (e) {
+      e.preventDefault();
+      console.log(addItem.dataset.pizza);
+      var pizza = JSON.parse(addItem.dataset.pizza);
+      addCartItem(pizza);
+    });
+  });
+  removeItemButtons.forEach(function (removeItem) {
+    removeItem.addEventListener('click', function (e) {
+      e.preventDefault();
+      console.log(removeItem.dataset.pizza);
+      var pizza = JSON.parse(removeItem.dataset.pizza);
+      deleteCartItem(pizza);
+    });
+  });
+};
 var authenticatedUser = function authenticatedUser(user) {
   if (!user) {
     return "\n            <a href=\"/login\" class=\"inline-block cursor-pointer btn-primary px-6 py-2 rounded-full text-white font-bold mt-6\">Login to continue</a>\n        ";
@@ -348,7 +307,11 @@ var authenticatedUser = function authenticatedUser(user) {
 };
 var renderItems = function renderItems(items) {
   return Object.values(items).map(function (pizza) {
-    return "\n            <div class=\"pizza-list\">\n                <div class=\"flex items-center my-8\">\n                    <img class=\"w-24\" src=\"/img/".concat(pizza.item.image, "\" alt=\"pizza\">\n                    <div class=\"flex-1 ml-4\">\n                        <h1>").concat(pizza.item.name, "</h1>\n                        <span>").concat(pizza.item.size, "</span>\n                    </div>\n                    <span class=\"flex-1\">").concat(pizza.qty, " Pcs</span>\n                    <span class=\"font-bold text-lg flex-1\">\u20B9").concat(pizza.item.price * pizza.qty, "</span>\n                    <div class=\"flex items-center gap-2\">\n                        <span data-pizza=").concat(JSON.stringify(pizza.item), " class=\"removeItem bg-transparent cursor-pointer text-3xl px-2 py-1 font-bold text-red-500 border-0\">-</span>\n                        <span data-pizza=").concat(JSON.stringify(pizza.item), " class=\"addItem bg-transparent cursor-pointer text-3xl px-2 py-1 font-bold text-green-500\">+</span>\n                    </div>\n                </div>\n            </div>\n        ");
+    var obj = {
+      _id: pizza.item._id,
+      price: pizza.item.price
+    };
+    return "\n            <div class=\"pizza-list\">\n                <div class=\"flex items-center my-8\">\n                    <img class=\"w-24\" src=\"/img/".concat(pizza.item.image, "\" alt=\"pizza\">\n                    <div class=\"flex-1 ml-4\">\n                        <h1>").concat(pizza.item.name, "</h1>\n                        <span>").concat(pizza.item.size, "</span>\n                    </div>\n                    <span class=\"flex-1\">").concat(pizza.qty, " Pcs</span>\n                    <span class=\"font-bold text-lg flex-1\">\u20B9").concat(pizza.item.price * pizza.qty, "</span>\n                    <div class=\"flex items-center gap-2\">\n                        <span data-pizza=").concat(JSON.stringify(obj), " class=\"removeItem bg-transparent cursor-pointer text-3xl px-2 py-1 font-bold text-red-500 border-0\">-</span>\n                        <span data-pizza=").concat(JSON.stringify(obj), " class=\"addItem bg-transparent cursor-pointer text-3xl px-2 py-1 font-bold text-green-500\">+</span>\n                    </div>\n                </div>\n            </div>\n        ");
   }).join('');
 };
 var generateMarkup = function generateMarkup(_ref) {
@@ -432,7 +395,7 @@ var deleteCartItem = /*#__PURE__*/function () {
 }();
 var initCart = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(socket) {
-    var cartBody, markup, result, addItemButtons, removeItemButtons;
+    var cartBody, markup, result;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -440,7 +403,7 @@ var initCart = /*#__PURE__*/function () {
             cartBody = document.getElementById('cartBody');
             _context3.prev = 1;
             _context3.next = 4;
-            return axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('/cart-trial', {
+            return axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('/cart', {
               headers: {
                 "X-Requested-With": "XMLHttpRequest"
               }
@@ -456,37 +419,20 @@ var initCart = /*#__PURE__*/function () {
             _context3.t0 = _context3["catch"](1);
             console.log(_context3.t0);
           case 12:
-            // Add and Delete Item
-            addItemButtons = document.querySelectorAll('.addItem');
-            removeItemButtons = document.querySelectorAll('.removeItem');
-            addItemButtons.forEach(function (addItem) {
-              addItem.addEventListener('click', function (e) {
-                console.log(addItem);
-                e.preventDefault();
-                var pizza = JSON.parse(addItem.dataset.pizza);
-                addCartItem(pizza);
-              });
-            });
-            removeItemButtons.forEach(function (removeItem) {
-              removeItem.addEventListener('click', function (e) {
-                e.preventDefault();
-                console.log(removeItem.dataset.pizza);
-                var pizza = JSON.parse(removeItem.dataset.pizza);
-                deleteCartItem(pizza);
-              });
-            });
+            eventListeners();
             socket.on('cartUpdated', function (data) {
               cartBody.innerHTML = '';
               cartBody.innerHTML = generateMarkup(data);
+              eventListeners();
               // Notification
               new (noty__WEBPACK_IMPORTED_MODULE_0___default())({
                 type: 'success',
                 timeout: 1000,
-                text: 'cart Updated!',
+                text: 'Cart Updated!',
                 progressBar: false
               }).show();
             });
-          case 17:
+          case 14:
           case "end":
             return _context3.stop();
         }

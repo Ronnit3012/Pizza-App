@@ -1,7 +1,11 @@
 const cartController = () => {
     return {
         index(req, res) {
-            res.render('customers/cart');
+            if(req.xhr) {
+                return res.json({ session: req.session, user: req.user })
+            }
+
+            return res.render('customers/cart');
         },
         // update cart in the session
         update(req, res) {
@@ -41,10 +45,14 @@ const cartController = () => {
         deleteItem(req, res) {
             if(req.session.cart.totalQty === 1) {
                 delete req.session.cart;
+
+                const eventEmitter = req.app.get('eventEmitter');
+                eventEmitter.emit('cartUpdated', { session: req.session, user: req.user });
+
                 return res.json({ totalQty: '' });
             }
 
-            const cart = req. session.cart;
+            const cart = req.session.cart;
 
             if(cart.items[req.body._id].qty === 1) {
                 delete cart.items[req.body._id];
@@ -59,14 +67,6 @@ const cartController = () => {
             eventEmitter.emit('cartUpdated', { session: req.session, user: req.user });
 
             return res.json({ totalQty: req.session.cart.totalQty });
-            // return res.redirect('/');
-        },
-        trial(req, res) {
-            if(req.xhr) {
-                return res.json({ session: req.session, user: req.user })
-            }
-
-            return res.render('customers/cartTrial');
         }
     }
 }
