@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Noty from 'noty';
 import moment from 'moment';
+import initCart from './cart';
 import initAdmin from './admin';
 
 // Socket
@@ -24,6 +25,11 @@ const updateCart = async (pizza) => {
         }).show();
 
         cartCounter.innerText = response.data.totalQty;
+
+        const orderAreaPath = window.location.pathname;
+        if(orderAreaPath === '/cart') {
+            window.location.reload(true);
+        }
     } catch(err) {
         new Noty({
             type: 'error',
@@ -41,6 +47,57 @@ addToCart.forEach((btn) => {
         updateCart(pizza);
     });
 });
+
+
+const orderAreaPath = window.location.pathname;
+if(orderAreaPath === '/cart-trial') {
+    initCart(socket);
+}
+
+// Add and Delete Item
+const addItemButtons = document.querySelectorAll('.addItem');
+const removeItemButtons = document.querySelectorAll('.removeItem');
+// console.log(addItemButtons);
+addItemButtons.forEach(addItem => {
+    addItem.addEventListener('click', (e) => {
+        e.preventDefault();
+        let pizza = JSON.parse(addItem.dataset.pizza);
+        updateCart(pizza);
+        window.location.reload(true);
+    });
+});
+
+const deleteCartItem = async (pizza) => {
+    try {
+        const response = await axios.post('/delete-item', pizza);
+
+        new Noty({
+            type: 'success',
+            timeout: 1000,
+            text: 'Item delete from the cart!',
+            progressBar: false,
+        }).show();
+
+        cartCounter.innerText = response.data.totalQty;
+        window.location.reload(true);
+    } catch(err) {
+        new Noty({
+            type: 'error',
+            timeout: 1000,
+            text: 'Something went wrong!',
+            progressBar: false,
+        }).show();
+    }
+}
+
+removeItemButtons.forEach(removeItem => {
+    removeItem.addEventListener('click', (e) => {
+        e.preventDefault();
+        let pizza = JSON.parse(removeItem.dataset.pizza);
+        deleteCartItem(pizza);
+    })
+})
+
 
 
 // Remove alert message after two seconds

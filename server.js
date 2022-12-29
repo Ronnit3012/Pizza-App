@@ -101,6 +101,12 @@ const io = socket(server, {
 
 io.sockets.on('connection', (socket) => {
     // console.log(socket.id);
+    
+    // Updating Cart
+    eventEmitter.on('cartUpdated', (data) => {
+        socket.emit('cartUpdated', data);
+    });
+
     // Join Room
     socket.on('join', (roomName) => {
         socket.join(roomName);      // creating room for the client
@@ -113,4 +119,4 @@ eventEmitter.on('orderUpdated', (data) => {
 
 eventEmitter.on('orderPlaced', (data) => {
     io.to('adminRoom').emit('orderPlaced', data);
-})
+});

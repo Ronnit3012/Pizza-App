@@ -51,6 +51,7 @@ section.hero {
 
 section.cart{
     background-color: $secondary;
+    min-height: calc(100vh - 86px);
     .amount {
         color: $primary;
     }

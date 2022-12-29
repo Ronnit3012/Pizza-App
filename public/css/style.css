@@ -292,6 +292,7 @@ section.hero {
 
 section.cart {
   background-color: #f8f8f8;
+  min-height: calc(100vh - 86px);
 }
 section.cart .amount {
   color: #fe5f1e;

@@ -1,6 +1,6 @@
 <section class="cart py-16">
     <% if(session.cart) { %>
-    <div class=" order container mx-auto xl:w-1/2">
+    <div class="order container mx-auto xl:w-1/2">
         <div class="flex items-center border-b border-gray-300 pb-4">
             <img src="/img/cart-black.png" alt="cart-black">
             <h1 class="font-bold ml-4 text-2xl">Order Summary</h1>
@@ -15,10 +15,10 @@
                 </div>
                 <span class="flex-1"><%= pizza.qty %> Pcs</span>
                 <span class="font-bold text-lg flex-1">₹<%= pizza.item.price * pizza.qty %></span>
-                <!-- <div class="flex items-center gap-2">
-                    <span data-pizza="<%= JSON.stringify(pizza.item) %>" class="remove bg-transparent cursor-pointer text-3xl px-2 py-1 font-bold text-red-500 border-0">-</span>
-                    <span data-pizza="<%= JSON.stringify(pizza.item) %>" class="add bg-transparent cursor-pointer text-3xl px-2 py-1 font-bold text-green-500">+</span>
-                </div> -->
+                <div class="flex items-center gap-2">
+                    <span data-pizza="<%= JSON.stringify(pizza.item) %>" class="removeItem bg-transparent cursor-pointer text-3xl px-2 py-1 font-bold text-red-500 border-0">-</span>
+                    <span data-pizza="<%= JSON.stringify(pizza.item) %>" class="addItem bg-transparent cursor-pointer text-3xl px-2 py-1 font-bold text-green-500">+</span>
+                </div>
             </div>
         </div>
         <% }) %>

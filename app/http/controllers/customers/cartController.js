@@ -33,7 +33,40 @@ const cartController = () => {
             cart.totalQty += 1;
             cart.totalPrice += req.body.price;
 
+            const eventEmitter = req.app.get('eventEmitter');
+            eventEmitter.emit('cartUpdated', { session: req.session, user: req.user });
+
             return res.json({ totalQty: req.session.cart.totalQty });
+        },
+        deleteItem(req, res) {
+            if(req.session.cart.totalQty === 1) {
+                delete req.session.cart;
+                return res.json({ totalQty: '' });
+            }
+
+            const cart = req. session.cart;
+
+            if(cart.items[req.body._id].qty === 1) {
+                delete cart.items[req.body._id];
+            } else {
+                cart.items[req.body._id].qty -= 1;
+            }
+
+            cart.totalQty -= 1;
+            cart.totalPrice -= req.body.price;
+
+            const eventEmitter = req.app.get('eventEmitter');
+            eventEmitter.emit('cartUpdated', { session: req.session, user: req.user });
+
+            return res.json({ totalQty: req.session.cart.totalQty });
+            // return res.redirect('/');
+        },
+        trial(req, res) {
+            if(req.xhr) {
+                return res.json({ session: req.session, user: req.user })
+            }
+
+            return res.render('customers/cartTrial');
         }
     }
 }

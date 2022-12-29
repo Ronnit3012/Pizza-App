@@ -23,6 +23,9 @@ const initRoutes = (app) => {
 
     app.get('/cart', cartController().index);
     app.post('/update-cart', cartController().update);
+    app.post('/delete-item', cartController().deleteItem);
+    // trial
+    app.get('/cart-trial', cartController().trial);
 
     // Customer routes
     app.post('/orders', auth, orderController().store);
