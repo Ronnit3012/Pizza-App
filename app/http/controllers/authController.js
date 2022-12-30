@@ -87,7 +87,7 @@ const authController = () => {
                 const response = await user.save();
                 // console.log(response);
 
-                return res.redirect('/');
+                return res.redirect('/login');
             } catch (err) {
                 req.flash('error', 'Something went wrong!');
 

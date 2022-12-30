@@ -1,5 +1,6 @@
 const Order = require('../../../models/order');
 const moment = require('moment');
+const stripe = require('stripe')(process.env.STRIPE_PAYMENT_KEY);
 
 const orderController = () => {
     return {
@@ -19,12 +20,15 @@ const orderController = () => {
             }
         },
         async store(req, res) {
-            const { phone, address } = req.body;
+            console.log(req.body)
+            const { phone, address, stripeToken, paymentType } = req.body;
             
             // Validate request
             if(!phone || !address) {
-                req.flash('error', 'All fields are required!');
-                return res.redirect('/cart');
+                console.log('hello')
+                // req.flash('error', 'All fields are required!');
+                // return res.redirect('/cart');
+                return res.json({ error: 'All fields are required!' });
             };
             
             // console.log(req.session.cart.items)
@@ -33,6 +37,7 @@ const orderController = () => {
                 items: req.session.cart.items,
                 phone,
                 address,
+                paymentType,
             });
 
             try {
@@ -41,20 +46,53 @@ const orderController = () => {
                 try {
                     const orderPlaced = await Order.populate(result, { path: 'customerId' });
 
-                    req.flash('success', 'Order placed successfully!');
-                    delete req.session.cart;        // this will delete all the items stored in the cart will be deleted because they are all placed
+                    // Stripe Payment
+                    if(paymentType === 'card') {
+                        console.log(req.session.cart.totalPrice * 100);
+                        console.log(stripeToken);
+                        console.log(orderPlaced);
+                        try {
+                            console.log('hello')
+                            await stripe.charges.create({
+                                amount: req.session.cart.totalPrice * 100,
+                                source: stripeToken,
+                                currency: 'usd',
+                                description: `Pizza order: ${orderPlaced._id}`,
+                            });
+                            console.log('hello')
 
-                    // Emit 
-                    const eventEmitter = req.app.get('eventEmitter');
-                    eventEmitter.emit('orderPlaced', orderPlaced);
+                            orderPlaced.placedStatus = true;
 
-                    return res.redirect('/customer/orders');
+                            try {
+                                const ord = await orderPlaced.save();
+
+                                // Emit 
+                                const eventEmitter = req.app.get('eventEmitter');
+                                eventEmitter.emit('orderPlaced', ord);
+
+                                delete req.session.cart;        // this will delete all the items stored in the cart will be deleted because they are all placed
+
+                                return res.json({ success: 'Payment successful, Order placed successfully!' });
+                            } catch (error) {
+                                return res.json({ error: 'Payment successful but order not placed!' });
+                            }
+                        } catch (error) {
+                            console.log(error);
+                            delete req.session.cart;        // this will delete all the items stored in the cart will be deleted because they are all placed
+
+                            return res.json({ error: 'Order placed but payment failed, You can pay at delivery time!' });
+                        }
+                    }
+
+                    // req.flash('success', 'Order placed successfully!');
+                    // return res.redirect('/customer/orders');
                 } catch (error) {
                     console.log(error)
                 }
             } catch(err) {
-                req.flash('error', 'Something went wrong!');
-                return res.redirect('/cart');
+                // req.flash('error', 'Something went wrong!');
+                // return res.redirect('/cart');
+                return res.status(500).json({ error: 'Something went wrong!' });
             }
         },
         async show(req, res) {

@@ -1,9 +1,13 @@
 import axios from "axios";
 import Noty from 'noty';
+import initStripe from "./stripe";
 
 const cartCounter = document.querySelector('#cartCounter');
 
 const eventListeners = () => {
+    //Stripe
+    initStripe();
+    
     // Add and Delete Item
     const addItemButtons = document.querySelectorAll('.addItem');
     const removeItemButtons = document.querySelectorAll('.removeItem');
@@ -36,10 +40,20 @@ const authenticatedUser = (user) => {
 
     return `
         <div>
-            <form action="/orders" method="POST" class="mt-12">
+            <form id="payment-form" class="mt-12">
+            <div class="relative w-1/2 ml-auto mb-4">
+                <select id="paymentType" name="paymentType" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline">
+                <option value="cod">Cash on delivery</option>
+                <option value="card">Pay with card</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                </div>
+                </div>
                 <input class="border border=gray-400 p-2 w-1/2 mb-4" type="text" name="phone" placeholder="Phone Number" />
                 <input class="border border=gray-400 p-2 w-1/2 mb-4" type="text" name="address" placeholder="Address" />
                 <div>
+                    <div id="card-element"></div>
                     <button class="btn-primary px-6 py-2 rounded-full text-white font-bold mt-6" type="submit">Order Now</button>
                 </div>
             </form>
@@ -96,11 +110,13 @@ const generateMarkup = ({session, user = null}) => {
             </div>
             ${renderItems(session.cart.items)}
             <hr>
-            <div class="text-right py-4">
+            <div class="text-right pt-4">
                 <div>
                     <span class="text-lg font-bold">Total Amount:</span>
                     <span class="amount text-2xl font-bold ml-2">₹${session.cart.totalPrice}</span>
                 </div>
+            </div>
+            <div class="text-right pb-4">
                 ${authenticatedUser(user)}
             </div>
         </div>
