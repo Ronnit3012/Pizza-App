@@ -1,9 +1,9 @@
 const cartController = () => {
     return {
         index(req, res) {
-            if(req.xhr) {
-                return res.json({ session: req.session, user: req.user })
-            }
+            // if(req.xhr) {
+            //     return res.json({ session: req.session, user: req.user })
+            // }
 
             return res.render('customers/cart');
         },
@@ -37,8 +37,8 @@ const cartController = () => {
             cart.totalQty += 1;
             cart.totalPrice += req.body.price;
 
-            const eventEmitter = req.app.get('eventEmitter');
-            eventEmitter.emit('cartUpdated', { session: req.session, user: req.user });
+            // const eventEmitter = req.app.get('eventEmitter');
+            // eventEmitter.emit('cartUpdated', { session: req.session, user: req.user });
 
             return res.json({ totalQty: req.session.cart.totalQty });
         },
@@ -46,8 +46,8 @@ const cartController = () => {
             if(req.session.cart.totalQty === 1) {
                 delete req.session.cart;
 
-                const eventEmitter = req.app.get('eventEmitter');
-                eventEmitter.emit('cartUpdated', { session: req.session, user: req.user });
+                // const eventEmitter = req.app.get('eventEmitter');
+                // eventEmitter.emit('cartUpdated', { session: req.session, user: req.user });
 
                 return res.json({ totalQty: '' });
             }
@@ -63,8 +63,8 @@ const cartController = () => {
             cart.totalQty -= 1;
             cart.totalPrice -= req.body.price;
 
-            const eventEmitter = req.app.get('eventEmitter');
-            eventEmitter.emit('cartUpdated', { session: req.session, user: req.user });
+            // const eventEmitter = req.app.get('eventEmitter');
+            // eventEmitter.emit('cartUpdated', { session: req.session, user: req.user });
 
             return res.json({ totalQty: req.session.cart.totalQty });
         }

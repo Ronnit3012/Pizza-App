@@ -20,8 +20,7 @@ const orderController = () => {
             }
         },
         async store(req, res) {
-            console.log(req.body)
-            const { phone, address, stripeToken, paymentType } = req.body;
+            const { phone, address, stripeToken, paymentType = null } = req.body;
             
             // Validate request
             if(!phone || !address) {
@@ -52,14 +51,12 @@ const orderController = () => {
                         console.log(stripeToken);
                         console.log(orderPlaced);
                         try {
-                            console.log('hello')
                             await stripe.charges.create({
                                 amount: req.session.cart.totalPrice * 100,
                                 source: stripeToken,
                                 currency: 'usd',
                                 description: `Pizza order: ${orderPlaced._id}`,
                             });
-                            console.log('hello')
 
                             orderPlaced.placedStatus = true;
 
@@ -77,17 +74,22 @@ const orderController = () => {
                                 return res.json({ error: 'Payment successful but order not placed!' });
                             }
                         } catch (error) {
-                            console.log(error);
                             delete req.session.cart;        // this will delete all the items stored in the cart will be deleted because they are all placed
 
                             return res.json({ error: 'Order placed but payment failed, You can pay at delivery time!' });
                         }
                     }
 
-                    // req.flash('success', 'Order placed successfully!');
+                    // Emit 
+                    const eventEmitter = req.app.get('eventEmitter');
+                    eventEmitter.emit('orderPlaced', orderPlaced);
+
+                    delete req.session.cart;        // this will delete all the items stored in the cart will be deleted because they are all placed
+
+                    return res.json({ success: 'Order placed successfully!' });
                     // return res.redirect('/customer/orders');
                 } catch (error) {
-                    console.log(error)
+                    console.log(error);
                 }
             } catch(err) {
                 // req.flash('error', 'Something went wrong!');

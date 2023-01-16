@@ -1,8 +1,9 @@
 import axios from 'axios';
 import Noty from 'noty';
 import moment from 'moment';
-import initCart from './cart';
 import initAdmin from './admin';
+import initStripe from "./stripe";
+import { addCartItem, deleteCartItem } from './cart'
 
 // Socket
 const socket = io();
@@ -45,8 +46,33 @@ addToCart.forEach((btn) => {
 
 // Cart
 const orderAreaPath = window.location.pathname;
+
+// Add and Delete Item
+const addItemButtons = document.querySelectorAll('.addItem');
+const removeItemButtons = document.querySelectorAll('.removeItem');
+
 if(orderAreaPath === '/cart') {
-    initCart(socket);
+    console.log(addItemButtons);
+    // Stripe Payment
+    initStripe();
+
+    addItemButtons.forEach(addItem => {
+        addItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(addItem.dataset.pizza);
+            let pizza = JSON.parse(addItem.dataset.pizza);
+            addCartItem(pizza);
+        });
+    });
+    
+    removeItemButtons.forEach(removeItem => {
+        removeItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(removeItem.dataset.pizza)
+            let pizza = JSON.parse(removeItem.dataset.pizza);
+            deleteCartItem(pizza);
+        })
+    });
 }
 
 // Remove alert message after two seconds
