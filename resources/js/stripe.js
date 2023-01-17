@@ -49,7 +49,7 @@ const initStripe = async () => {
         // Verify Card
         try {
             const result = await stripe.createToken(card);
-            console.log(result);
+            // console.log(result);
 
             formObj.stripeToken = result.token.id;
             placeOrder(formObj);

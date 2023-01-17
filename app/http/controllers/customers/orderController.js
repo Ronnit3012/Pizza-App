@@ -24,7 +24,6 @@ const orderController = () => {
             
             // Validate request
             if(!phone || !address) {
-                console.log('hello')
                 // req.flash('error', 'All fields are required!');
                 // return res.redirect('/cart');
                 return res.json({ error: 'All fields are required!' });
@@ -47,9 +46,9 @@ const orderController = () => {
 
                     // Stripe Payment
                     if(paymentType === 'card') {
-                        console.log(req.session.cart.totalPrice * 100);
-                        console.log(stripeToken);
-                        console.log(orderPlaced);
+                        // console.log(req.session.cart.totalPrice * 100);
+                        // console.log(stripeToken);
+                        // console.log(orderPlaced);
                         try {
                             await stripe.charges.create({
                                 amount: req.session.cart.totalPrice * 100,

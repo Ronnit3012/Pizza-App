@@ -13,6 +13,11 @@ const authController = () => {
         },
         postLogin(req, res, next) {
             const { email, password } = req.body;
+            
+            let cart;
+            if(req.session.cart) {
+                cart = req.session.cart;
+            }
 
             // Validate Request
             if(!email || !password) {
@@ -36,6 +41,10 @@ const authController = () => {
                     if(err) {
                         req.flash('error', info.message);
                         return next(err);
+                    }
+
+                    if(cart) {
+                        req.session.cart = cart;
                     }
 
                     return res.redirect(_getRedirectUrl(req));      // we will create a private method which will return the route to redirect based in the role of the user

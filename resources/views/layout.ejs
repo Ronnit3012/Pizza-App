@@ -30,15 +30,15 @@
         </div>
         <div>
             <ul class="flex gap-6 items-center">
-                <li><a href="/">Menu</a></li>
+                <li class="menuBtn"><a href="/">Menu</a></li>
                 <!-- <li><a href="#">Offers</a></li> -->
                 <% if(user) { %>
                     <% if(user.role === 'customer') { %>
                         <li><a href="/customer/orders">My Orders</a></li>
                     <% } %>
                     <li>
-                        <form id="logout" action="/logout" method="POST">
-                            <a onclick="document.getElementById('logout').submit()" href="#">Logout</a>
+                        <form id="logout" class="cursor-pointer" action="/logout" method="POST">
+                            <a onclick="document.getElementById('logout').submit()" >Logout</a>
                         </form>
                     </li>
                 <% } else { %>

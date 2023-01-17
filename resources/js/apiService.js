@@ -4,7 +4,6 @@ import Noty from 'noty';
 const placeOrder = async (formObj) => {
     try {
         const response = await axios.post('/orders', formObj);
-        console.log(response)
 
         if(response.data.success) {
             new Noty({

@@ -5,9 +5,26 @@ import initAdmin from './admin';
 import initStripe from "./stripe";
 import { addCartItem, deleteCartItem } from './cart'
 
+// Path
+const path = window.location.pathname;
+
 // Socket
 const socket = io();
 socket.on('connection');
+
+// Menu
+const menu = document.querySelector('.menu');
+
+if(path === '/') {
+    document.querySelectorAll('.menuBtn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            menu.scrollIntoView({
+                behavior: 'smooth',
+            });
+        });
+    })
+}
 
 const addToCart = document.querySelectorAll('.add-to-cart');
 const cartCounter = document.querySelector('#cartCounter');
@@ -45,21 +62,18 @@ addToCart.forEach((btn) => {
 });
 
 // Cart
-const orderAreaPath = window.location.pathname;
-
 // Add and Delete Item
 const addItemButtons = document.querySelectorAll('.addItem');
 const removeItemButtons = document.querySelectorAll('.removeItem');
 
-if(orderAreaPath === '/cart') {
-    console.log(addItemButtons);
+if(path === '/cart') {
     // Stripe Payment
     initStripe();
 
     addItemButtons.forEach(addItem => {
         addItem.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log(addItem.dataset.pizza);
+            // console.log(addItem.dataset.pizza);
             let pizza = JSON.parse(addItem.dataset.pizza);
             addCartItem(pizza);
         });
@@ -68,7 +82,7 @@ if(orderAreaPath === '/cart') {
     removeItemButtons.forEach(removeItem => {
         removeItem.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log(removeItem.dataset.pizza)
+            // console.log(removeItem.dataset.pizza)
             let pizza = JSON.parse(removeItem.dataset.pizza);
             deleteCartItem(pizza);
         })
@@ -128,8 +142,7 @@ if(order) {
 }
 
 // Admin
-const adminAreaPath = window.location.pathname;
-if(adminAreaPath.includes('/admin/orders')) {
+if(path.includes('/admin/orders')) {
     initAdmin(socket);
     socket.emit('join', 'adminRoom');
 }

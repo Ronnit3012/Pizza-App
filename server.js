@@ -123,6 +123,6 @@ eventEmitter.on('orderUpdated', (data) => {
 });
 
 eventEmitter.on('orderPlaced', (data) => {
-    console.log(data);
+    // console.log(data);
     io.to('adminRoom').emit('orderPlaced', data);
 });
